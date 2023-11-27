@@ -61,7 +61,7 @@ function populateDisplay(button) {
         if (!content.includes('.')) {
             content += content ? '.' : '0.';
         }
-    } else {
+    } else if (content !== '0') {
         content += button.target.textContent;
     }
     display.textContent = content;
