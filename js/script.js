@@ -57,7 +57,13 @@ function operate(operator, firstArgument, secondArgument) {
 }
 
 function populateDisplay(button) {
-    content += button.target.textContent;
+    if (button.target.textContent == '.') {
+        if (!content.includes('.')) {
+            content += content ? '.' : '0.';
+        }
+    } else {
+        content += button.target.textContent;
+    }
     display.textContent = content;
 }
 
@@ -75,7 +81,7 @@ function getOperator(button) {
 }
 
 function compute(button) {
-    if (button.target.textContent != 'c') {
+    if (button.target.textContent != 'c' && firstArgument && operator) {
         secondArgument = +content||+display.textContent;
         console.log(firstArgument, operator, secondArgument);
         display.textContent = operate(operator, firstArgument, secondArgument);
