@@ -1,8 +1,13 @@
-let firstArgument = prompt('Enter first argument');
-let secondArgument = prompt('Enter second argument');
-let operator = prompt('Enter operator');
+// let firstArgument = ;
+// let secondArgument = ;
+// let operator = ;
 
-alert(operate(operator, firstArgument, secondArgument));
+const display = document.querySelector('.display');
+const numbers = document.querySelector('.numbers');
+
+numbers.addEventListener('click', e => {
+    populateDisplay(e);
+});
 
 function add(firstArgument, secondArgument) {
     return +firstArgument + +secondArgument;
@@ -37,4 +42,8 @@ function operate(operator, firstArgument, secondArgument) {
             break;
     }
     return result;
+}
+
+function populateDisplay(button) {
+    display.textContent += button.target.textContent;
 }
