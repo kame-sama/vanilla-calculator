@@ -21,6 +21,7 @@ operators.addEventListener('click', e => {
 clearOrCompute.addEventListener('click', e => {
     compute(e);
     clear(e);
+    deleteLastChar(e);
 });
 
 function add(firstArgument, secondArgument) {
@@ -87,7 +88,8 @@ function getOperator(button) {
 }
 
 function compute(button) {
-    if (button.target.textContent != 'C' && firstArgument && operator) {
+    if (button.target.textContent != 'C' && button.target.textContent != '←'
+        && firstArgument && operator) {
         secondArgument = +content||+display.textContent;
         console.log(firstArgument, operator, secondArgument);
         let result = operate(operator, firstArgument, secondArgument);
@@ -117,5 +119,19 @@ function clear(button) {
         operator = null;
         const selected = document.querySelector('.selected');
         if (selected) selected.classList.toggle('selected');
+    }
+}
+
+function deleteLastChar(button) {
+    if (button.target.textContent == '←') {
+        if (display.textContent.length > 1 && content.length > 1) {
+            display.textContent = display.textContent.slice(0, -1);
+            content = content.slice(0, -1);
+            console.log(content);
+        } else {
+            display.textContent = '0';
+            content = '0';
+        }
+        
     }
 }
