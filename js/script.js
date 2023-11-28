@@ -63,7 +63,9 @@ function populateDisplay(button) {
         if (!content.includes('.')) {
             content += content ? '.' : '0.';
         }
-    } else if (content !== '0') {
+    } else if (content === '0') {
+        content = button.target.textContent;
+    } else {
         content += button.target.textContent;
     }
     display.textContent = content;
@@ -100,6 +102,7 @@ function compute(button) {
 
 function clear(button) {
     if (button.target.textContent == 'c') {
+        content = '';
         display.textContent = '0';
         firstArgument = null;
         secondArgument = null;
