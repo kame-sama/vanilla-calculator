@@ -8,6 +8,8 @@ const numbers = document.querySelector('.numbers');
 const operators = document.querySelector('.operators');
 const clearOrCompute = document.querySelector('.clear-or-compute');
 
+display.textContent = '0';
+
 numbers.addEventListener('click', e => {
     populateDisplay(e);
 });
@@ -19,10 +21,10 @@ operators.addEventListener('click', e => {
 clearOrCompute.addEventListener('click', e => {
     compute(e);
     clear(e);
-})
+});
 
 function add(firstArgument, secondArgument) {
-    return +firstArgument + +secondArgument;
+    return firstArgument + secondArgument;
 }
 
 function subtract(firstArgument, secondArgument) {
@@ -90,7 +92,7 @@ function compute(button) {
         firstArgument =
             button.target.textContent == '='
             ? null
-            : display.textContent;
+            : +display.textContent;
         secondArgument = null;
         operator = null;
     }
@@ -98,7 +100,7 @@ function compute(button) {
 
 function clear(button) {
     if (button.target.textContent == 'c') {
-        display.textContent = '';
+        display.textContent = '0';
         firstArgument = null;
         secondArgument = null;
         operator = null;
