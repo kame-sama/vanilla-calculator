@@ -74,6 +74,7 @@ function populateDisplay(button) {
 function getOperator(button) {
     if (!operator) {
         operator = button.target.textContent;
+        button.target.classList.toggle('selected');
     }
     if (firstArgument === null) {
         firstArgument = +content||+display.textContent;
@@ -81,11 +82,12 @@ function getOperator(button) {
     } else {
         compute(button);
         operator = button.target.textContent;
+        button.target.classList.toggle('selected');
     }
 }
 
 function compute(button) {
-    if (button.target.textContent != 'c' && firstArgument && operator) {
+    if (button.target.textContent != 'C' && firstArgument && operator) {
         secondArgument = +content||+display.textContent;
         console.log(firstArgument, operator, secondArgument);
         display.textContent = operate(operator, firstArgument, secondArgument);
@@ -97,15 +99,19 @@ function compute(button) {
             : +display.textContent;
         secondArgument = null;
         operator = null;
+        const selected = document.querySelector('.selected');
+        selected.classList.toggle('selected');
     }
 }
 
 function clear(button) {
-    if (button.target.textContent == 'c') {
+    if (button.target.textContent == 'C') {
         content = '';
         display.textContent = '0';
         firstArgument = null;
         secondArgument = null;
         operator = null;
+        const selected = document.querySelector('.selected');
+        if (selected) selected.classList.toggle('selected');
     }
 }
