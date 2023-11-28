@@ -45,13 +45,13 @@ function operate(operator, firstArgument, secondArgument) {
         case '+':
             result = add(firstArgument, secondArgument);
             break;
-        case '-':
+        case '−':
             result = subtract(firstArgument, secondArgument);
             break;
-        case '*':
+        case '×':
             result = multiply(firstArgument, secondArgument);
             break;
-        case '/':
+        case '÷':
             result = divide(firstArgument, secondArgument);
             break;
     }
