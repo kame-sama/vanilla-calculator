@@ -3,7 +3,6 @@ let secondArgument = null;
 let operator = null;
 let content = '';
 
-const body = document.querySelector('body');
 const display = document.querySelector('.display');
 const numbers = document.querySelector('.numbers');
 const operators = document.querySelector('.operators');
@@ -25,9 +24,8 @@ clearOrCompute.addEventListener('click', e => {
     deleteLastChar(e);
 });
 
-body.addEventListener('keydown', e => {
+window.addEventListener('keydown', e => {
     e.preventDefault();
-    console.log(e.key);
     getKeyPressed(e);
 });
 
@@ -103,13 +101,11 @@ function compute(button) {
         && (button.key||button.target.textContent) != '←'
         && firstArgument && operator) {
         secondArgument = +content||+display.textContent;
-        console.log(firstArgument, operator, secondArgument);
         let result = operate(operator, firstArgument, secondArgument);
         display.textContent =
             result.toString().length > 9
             ? result.toPrecision(5)
             : result;
-        console.log(display.textContent);
         content = '';
         firstArgument =
             button.key||button.target.textContent == '='
@@ -140,7 +136,6 @@ function deleteLastChar(button) {
         if (display.textContent.length > 1 && content.length > 1) {
             display.textContent = display.textContent.slice(0, -1);
             content = content.slice(0, -1);
-            console.log(content);
         } else {
             display.textContent = '0';
             content = '0';
