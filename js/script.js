@@ -59,13 +59,13 @@ function operate(operator, firstArgument, secondArgument) {
 }
 
 function populateDisplay(button) {
-    if (button.target.textContent == '.') {
+    if (button.target.textContent == '.' && content.length < 9) {
         if (!content.includes('.')) {
             content += content ? '.' : '0.';
         }
     } else if (content === '0') {
         content = button.target.textContent;
-    } else {
+    } else if (content.replace('.', '').length < 9) {
         content += button.target.textContent;
     }
     display.textContent = content;
@@ -90,7 +90,11 @@ function compute(button) {
     if (button.target.textContent != 'C' && firstArgument && operator) {
         secondArgument = +content||+display.textContent;
         console.log(firstArgument, operator, secondArgument);
-        display.textContent = operate(operator, firstArgument, secondArgument);
+        let result = operate(operator, firstArgument, secondArgument);
+        display.textContent =
+            result.toString().length > 9
+            ? result.toPrecision(5)
+            : result;
         console.log(display.textContent);
         content = '';
         firstArgument =
