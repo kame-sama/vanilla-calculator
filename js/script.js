@@ -3,6 +3,7 @@ let secondArgument = null;
 let operator = null;
 let content = '';
 
+const body = document.querySelector('body');
 const display = document.querySelector('.display');
 const numbers = document.querySelector('.numbers');
 const operators = document.querySelector('.operators');
@@ -22,6 +23,12 @@ clearOrCompute.addEventListener('click', e => {
     compute(e);
     clear(e);
     deleteLastChar(e);
+});
+
+body.addEventListener('keydown', e => {
+    e.preventDefault();
+    console.log(e.key);
+    getKeyPressed(e);
 });
 
 function add(firstArgument, secondArgument) {
@@ -47,12 +54,15 @@ function operate(operator, firstArgument, secondArgument) {
             result = add(firstArgument, secondArgument);
             break;
         case '−':
+        case '-':
             result = subtract(firstArgument, secondArgument);
             break;
         case '×':
+        case '*':
             result = multiply(firstArgument, secondArgument);
             break;
         case '÷':
+        case '/':
             result = divide(firstArgument, secondArgument);
             break;
     }
@@ -60,21 +70,22 @@ function operate(operator, firstArgument, secondArgument) {
 }
 
 function populateDisplay(button) {
-    if (button.target.textContent == '.' && content.length < 9) {
+    if ((button.target.textContent == '.' || button.key == '.')
+        && content.length < 9) {
         if (!content.includes('.')) {
             content += content ? '.' : '0.';
         }
     } else if (content === '0') {
-        content = button.target.textContent;
+        content = button.key||button.target.textContent;
     } else if (content.replace('.', '').length < 9) {
-        content += button.target.textContent;
+        content += button.key||button.target.textContent;
     }
     display.textContent = content;
 }
 
 function getOperator(button) {
     if (!operator) {
-        operator = button.target.textContent;
+        operator = button.key||button.target.textContent;
         button.target.classList.toggle('selected');
     }
     if (firstArgument === null) {
@@ -82,13 +93,14 @@ function getOperator(button) {
         content = '';
     } else {
         compute(button);
-        operator = button.target.textContent;
+        operator = button.key||button.target.textContent;
         button.target.classList.toggle('selected');
     }
 }
 
 function compute(button) {
-    if (button.target.textContent != 'C' && button.target.textContent != '←'
+    if ((button.key||button.target.textContent) != 'C'
+        && (button.key||button.target.textContent) != '←'
         && firstArgument && operator) {
         secondArgument = +content||+display.textContent;
         console.log(firstArgument, operator, secondArgument);
@@ -100,7 +112,8 @@ function compute(button) {
         console.log(display.textContent);
         content = '';
         firstArgument =
-            button.target.textContent == '='
+            button.key||button.target.textContent == '='
+            || button.key == 'Enter'
             ? null
             : +display.textContent;
         secondArgument = null;
@@ -111,7 +124,7 @@ function compute(button) {
 }
 
 function clear(button) {
-    if (button.target.textContent == 'C') {
+    if (button.target.textContent == 'C' || button.key == 'Delete') {
         content = '';
         display.textContent = '0';
         firstArgument = null;
@@ -123,7 +136,7 @@ function clear(button) {
 }
 
 function deleteLastChar(button) {
-    if (button.target.textContent == '←') {
+    if (button.target.textContent == '←' || button.key == 'Backspace') {
         if (display.textContent.length > 1 && content.length > 1) {
             display.textContent = display.textContent.slice(0, -1);
             content = content.slice(0, -1);
@@ -133,5 +146,19 @@ function deleteLastChar(button) {
             content = '0';
         }
         
+    }
+}
+
+function getKeyPressed(button) {
+    if (button.key.match(/\d|\./)) {
+        populateDisplay(button);
+    } else if (button.key.match(/\+|-|\*|\//)) {
+        getOperator(button);
+    } else if (button.key == '=' || button.key == 'Enter') {
+        compute(button);
+    } else if (button.key == 'Delete') {
+        clear(button);
+    } else if (button.key == 'Backspace') {
+        deleteLastChar(button);
     }
 }
